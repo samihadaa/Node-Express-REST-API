@@ -1,4 +1,4 @@
-const Product = require("../models/product.model.js");
+const Product = require("../models/productModel.js");
 const express = require("express");
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const {
   updateProduct,
   deleteProduct,
   addProduct,
-} = require("../controllers/product.controller.js");
+} = require("../controllers/productController.js");
 
 router.get("/", getProducts);
 router.get("/:id", getProduct);

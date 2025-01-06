@@ -1,8 +1,11 @@
+const { required } = require("joi");
 const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "please enter the name of the product"],
+    trim: true,
+    minLength: [3, "product name must have at least 3 characters"]
   },
   price: {
     type: Number,
@@ -17,6 +20,11 @@ const productSchema = new mongoose.Schema({
   image: {
     type: String,
     required: false,
+  },
+  userId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
   createdAt: {
     type: Date,

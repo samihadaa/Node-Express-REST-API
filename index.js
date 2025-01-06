@@ -1,25 +1,35 @@
 const express = require("express");
+const helmet = require('helmet');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const mongoose = require("mongoose");
+
 const app = express();
+
 //Middlewares
+app.use(helmet());
+app.use(cors());
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-const ProductRouter = require("./routes/product.route.js");
+const ProductRouter = require("./routes/productRoute.js");
+const userRouter = require("./routes/userRoute.js");
 
 app.use('/api/products', ProductRouter)
-app.listen(3000, () => {
+app.use('/api/auth', userRouter)
+app.listen(process.env.PORT, () => {
   console.log("listening to port 3000");
 });
 
 //DB connection
 mongoose
   .connect(
-    "mongodb+srv://sami:pascal1623@cluster0.fjr79.mongodb.net/node-api?retryWrites=true&w=majority&appName=Cluster0"
+    process.env.MONGO_URI
   )
   .then(() => {
     console.log("connected to mongo db");
   })
-  .catch(() => {
-    console.log("connection failed");
+  .catch((error) => {
+    console.log("connection failed:", error);
   });
